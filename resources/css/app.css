@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.newspaper-title {
+    font-family: 'NYTHeadline', serif;
+}
+
+.newspaper-title-2{
+    font-family: 'GreatVibes', serif;
+}
+
+.newspaper-text{
+    font-family: 'AbrilFatface', serif;
+}
+
+
+
+.input-error {
+    @apply text-red-500 text-sm
+  }
+
+
+#parchment {
+    position: absolute;
+      width: 100%;
+    min-height: calc((1vw + 1vh) * 75);
+    /* center page with absolute position */
+    top: 0%; left: 50%; transform: translate(-50%, 0);
+      padding: 1em;
+      box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+      background: #fffef0;
+    filter: url(#wavy2);
+  }
+
+
+@font-face {
+    font-family: 'NYTHeadline';
+    src: url('../fonts/Lodeh-VGLD6.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'GreatVibes';
+    src: url('../fonts/GreatVibes.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+
+
+  @font-face {
+    font-family: 'AbrilFatface';
+    src: url('../fonts/AbrilFatface.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
