@@ -8,19 +8,26 @@
         <div class="col-span-10"><h1 class="newspaper-title text-[25px] md:text-[65px]">In God's Perfect Time</h1></div>
       </div>
 
-      <div class="flex justify-between items-center text-sm text-gray-600 border-t border-b border-gray-400 py-2">
-        <div>KASAL NG TAON</div> 
-        IKA 25 NG HULYO, 2025, 8:00AM
+      <div class="items-center text-sm text-gray-600 border-t border-b border-gray-400 py-2">
+        <div class="flex justify-between">
+          <div>KASAL NG TAON</div>
+          <div>
+            IKA 25 NG HULYO, 2025, 8:00AM
+          </div>
+        </div>
+
         <div>
+          Counting down to
           <strong>
-            <VueCountdown
-              v-slot="{ days, hours, minutes, seconds }"
-              :auto-start="true"
-              :time="timeUntilTarget"
-              @end="onCountdownEnd"
-            >
-              <span>{{ days }}d {{ hours }}h {{ minutes }}m {{ seconds }}s</span>
-            </VueCountdown>
+            forever!
+            <p>
+              {{ time.years }} years,
+              {{ time.months }} months,
+              {{ time.days }} days,
+              {{ time.hours }} hours,
+              {{ time.minutes }} minutes,
+              {{ time.seconds }} seconds
+            </p>
           </strong>
         </div>
       </div>
@@ -391,20 +398,61 @@
 import Gallery from '@/Components/Gallery.vue'
 import Navigation from '@/Components/Navigation.vue'
 import RSVP from '@/Components/RSVP.vue'
-import VueCountdown from '@chenfengyuan/vue-countdown'
-import { computed } from 'vue'
+//import VueCountdown from '@chenfengyuan/vue-countdown'
 
-// 🎯 Set your target date here
-const targetDate = new Date('2025-07-25T09:00:00')
+//COuntUP
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import utc from 'dayjs/plugin/utc'
 
-// ⏱ Compute the time difference in milliseconds
-const timeUntilTarget = computed(() => targetDate.getTime() - Date.now())
+dayjs.extend(duration)
+dayjs.extend(relativeTime)
+dayjs.extend(utc)
 
-// Optional: Action when countdown ends
-function onCountdownEnd() {
-  alert('WEDDING TIME!')
+const targetDate = dayjs('2023-07-24T00:00:00') // Your base date
+
+const time = ref({
+  years: 0,
+  months: 0,
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+})
+
+let interval = null
+
+function updateTime() {
+  const now = dayjs()
+  let years = now.diff(targetDate, 'year')
+  const dateAfterYears = targetDate.add(years, 'year')
+
+  let months = now.diff(dateAfterYears, 'month')
+  const dateAfterMonths = dateAfterYears.add(months, 'month')
+
+  let days = now.diff(dateAfterMonths, 'day')
+  const dateAfterDays = dateAfterMonths.add(days, 'day')
+
+  let hours = now.diff(dateAfterDays, 'hour')
+  const dateAfterHours = dateAfterDays.add(hours, 'hour')
+
+  let minutes = now.diff(dateAfterHours, 'minute')
+  const dateAfterMinutes = dateAfterHours.add(minutes, 'minute')
+
+  let seconds = now.diff(dateAfterMinutes, 'second')
+
+  time.value = { years, months, days, hours, minutes, seconds }
 }
 
+onMounted(() => {
+  updateTime()
+  interval = setInterval(updateTime, 1000)
+})
 
+onBeforeUnmount(() => {
+  clearInterval(interval)
+})
 </script>
 
