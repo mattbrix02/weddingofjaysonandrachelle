@@ -411,7 +411,7 @@ dayjs.extend(duration)
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
 
-const targetDate = dayjs('2023-07-24T00:00:00') // Your base date
+const targetDate = dayjs('2025-07-25T09:00:00') // Your base date
 
 const time = ref({
   years: 0,
