@@ -48,7 +48,14 @@
     <!-- Main Content -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
       <!-- Photo Section -->
-      <div class="relative text-center mt-1">
+      <div
+        ref="imageRef"
+        class="relative text-center mt-1"
+        :class="[
+          'transition-all duration-3000 ease-in-out transform',
+          isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+        ]"
+      >
         <img class="h-full w-full max-w-md mx-auto rounded-lg bottom-0" src="/storage/image/RJImage1.png" alt="Jayson and Rachelle" />
       </div>
 
@@ -400,12 +407,42 @@ import Navigation from '@/Components/Navigation.vue'
 import RSVP from '@/Components/RSVP.vue'
 //import VueCountdown from '@chenfengyuan/vue-countdown'
 
+
+
+
 //COuntUP
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import utc from 'dayjs/plugin/utc'
+
+
+
+//image flip
+
+
+const isVisible = ref(false)
+const imageRef = ref(null)
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        isVisible.value = true
+      }
+    },
+    {
+      threshold: 0.3,
+    },
+  )
+
+  if (imageRef.value) {
+    observer.observe(imageRef.value)
+  }
+})
+
+//countup
 
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
